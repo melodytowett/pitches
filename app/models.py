@@ -1,13 +1,14 @@
-from . import db
+from sqlalchemy import false
+from . import db,login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 
 
  
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(int(user_id))
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
@@ -19,7 +20,22 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
-    reviews = db.relationship('Review',backref = 'user',lazy = "dynamic")
+    comments = db.relationship('Review',backref = 'user',lazy = "dynamic")
+
+    '''
+    decorator to create a write only class property password
+    '''
+    @property
+    def password(self):
+        raise AttributeError('Password attribute cannot be read')
+
+    @password.setter
+    def password(self, password):
+        self.pass_secure = generate_password_hash(password)
+
+    def verify_password(self,password):
+        return check_password_hash(self.pass_secure,password)
+    
 
     def __repr__(self):
         return f'User {self.username}'
