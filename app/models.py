@@ -1,4 +1,6 @@
-from sqlalchemy import false
+import string
+from turtle import down
+from sqlalchemy import Column, false
 from . import db,login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -39,3 +41,36 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
+class Pitch(db.Model):
+    __tablename__ ='pitches'
+    id = db.Column(db.Interger, primary_key=True)
+    pitch_title = db.Column(db.String)
+    content = db.Column(db.Text())
+    pitch_category = db.column(db.String)
+    time_posted = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.column(db.Interger,db.ForeignKey("users.id"))
+    comment = db.Column(db.String)
+    upvote = db.Column(db.String)
+    downvote = db.Column(db.String)
+
+    '''
+    Method to save pitch to session and commit is to database
+    '''
+
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+    '''
+    classmethod that will take in pitch id and retrive them
+    '''
+
+    @classmethod
+    def get_ptches(cls,id):
+        pitches = Pitch.query.filetr_by(pitch_id = id).all()
+        return pitches
+        
+    def __repr__(self):
+        return f'User {self.username}'
+    
