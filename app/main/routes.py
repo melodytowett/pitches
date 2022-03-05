@@ -1,5 +1,4 @@
 
-from turtle import title
 from flask import render_template
 from . import main
 
@@ -8,3 +7,4 @@ from . import main
 def index():
     title = 'Home - One Minute Pitch'
     return render_template('index.html',title=title)
+
