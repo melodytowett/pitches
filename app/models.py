@@ -1,14 +1,14 @@
 from sqlalchemy import Column, false
-from . import db,login_manager
+from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 
 
  
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(int(user_id))
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
@@ -42,12 +42,12 @@ class User(UserMixin,db.Model):
 
 class Pitch(db.Model):
     __tablename__ ='pitches'
-    id = db.Column(db.Interger, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     pitch_title = db.Column(db.String)
     content = db.Column(db.Text())
     pitch_category = db.column(db.String)
     time_posted = db.Column(db.DateTime,default=datetime.utcnow)
-    user_id = db.column(db.Interger,db.ForeignKey("users.id"))
+    user_id = db.column(db.Integer,db.ForeignKey("users.id"))
     comment = db.Column(db.String)
     upvote = db.Column(db.String)
     downvote = db.Column(db.String)
