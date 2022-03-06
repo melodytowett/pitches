@@ -1,8 +1,7 @@
-from importlib.resources import path
+from xml.etree.ElementTree import Comment
 from flask import redirect, render_template, request, url_for,abort
 from flask_login import current_user, login_required
-from app.auth.pitch_view import login
-from app.main.forms import Pitchform
+from app.main.forms import PitchForm,UpdateProfile,CommentForm
 from app.models import Pitch, User
 from . import main
 from ..import db,photos
@@ -18,23 +17,39 @@ def index():
     religion_pitch = Pitch.query.filter_by(category='religion').all()
 
     title = 'Home - One Minute Pitch'
-    return render_template('index.html',title=title, motivation=motivation_pitch,promotion=promotion_pitch,technology=technology_pitch,religion=religion_pitch)
+    return render_template('index.html',title=title, pitches=pitches,motivation=motivation_pitch,promotion=promotion_pitch,technology=technology_pitch,religion=religion_pitch)
 
-@main.route('/new_content>',methods = ['GET',"POST"])
+@main.route('/pitch/content/new<int:id>',methods = ['GET',"POST"])
 @login_required
-def create_content(id):
-   form = Pitchform()
+def create_pitch(id):
+   form = PitchForm()
 #    Pitch = get_pitches(id)
    if form.validate_on_submit():
        title = form.title.data
        Pitch = form.content.data
        category = form.category.data
-
        new_pitch = Pitch(title = title, pitch_id=Pitch,category = category,user = current_user)
        new_pitch.save_pitch()
        return redirect(url_for('main.index' ))
 
    return render_template('pitches.html', form=form)
+
+
+@main.route('/comment/<int:pitch_id>', methods=['POST','GET'])
+@login_required
+def comment(pitch_id):
+    form = CommentForm()
+    pitch = Pitch.query.get(pitch_id)
+    comment = Comment.query.filter_by(pitch_id = pitch_id).all()
+    if form.validate_on_submit():
+        comment = form.Comment.data
+        pitch_id = pitch_id
+        new_comment = Comment(comment = comment,pitch_id = pitch,user = current_user)
+        new_comment.save_coment()
+        return redirect(url_for('.comment',pitch_id = pitch_id))
+
+    return render_template('comment.html', form = form,pitch = pitch,comment = comment)
+
 
 @main.route('/user/<uname>')
 @login_required
@@ -56,6 +71,7 @@ def update_pic(uname):
         user.profile_pic_patch =path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
 
 
 

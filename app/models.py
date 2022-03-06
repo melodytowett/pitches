@@ -15,10 +15,10 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255),index = True)
     email = db.Column(db.String(255),unique = True,index = True)
+    password_hash = db.Column(db.String(255))
     pass_secure  = db.Column(db.String(255))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    password_hash = db.Column(db.String(255))
     
     pitches = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
 
@@ -49,7 +49,6 @@ class Pitch(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     pitch_title = db.Column(db.String)
     content = db.Column(db.Text())
-    pitch_category = db.column(db.String)
     time_posted = db.Column(db.DateTime,default=datetime.utcnow)
     category = db.Column(db.String,nullable=False)
     user_id = db.column(db.Integer,db.ForeignKey("users.id"))
@@ -70,10 +69,10 @@ class Pitch(db.Model):
     classmethod that will take in pitch id and retrive them
     '''
 
-    # @classmethod
-    # def get_pitches(cls,id):
-    #     pitches = Pitch.query.filter_by(pitch_id = id).all()
-    #     return pitches
+    @classmethod
+    def get_pitches(cls,id):
+        pitches = Pitch.query.filter_by(pitch_id = id).all()
+        return pitches
 
     def __repr__(self):
         return f'User {self.username}'
