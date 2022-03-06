@@ -1,3 +1,4 @@
+from unicodedata import category
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -18,8 +19,12 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
-    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+    
     pitches = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
     '''
     decorator to create a write only class property password
@@ -46,8 +51,9 @@ class Pitch(db.Model):
     content = db.Column(db.Text())
     pitch_category = db.column(db.String)
     time_posted = db.Column(db.DateTime,default=datetime.utcnow)
+    category = db.Column(db.String,nullable=False)
     user_id = db.column(db.Integer,db.ForeignKey("users.id"))
-    comment = db.Column(db.String)
+    comment = db.relationship('Comment',backref = 'user',lazy = "dynamic")
     upvote = db.Column(db.String)
     downvote = db.Column(db.String)
 
