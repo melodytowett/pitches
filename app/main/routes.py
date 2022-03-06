@@ -1,9 +1,11 @@
-from flask import redirect, render_template, url_for,abort
+from importlib.resources import path
+from flask import redirect, render_template, request, url_for,abort
 from flask_login import current_user, login_required
 from app.auth.pitch_view import login
 from app.main.forms import Pitchform
 from app.models import Pitch, User
 from . import main
+from ..import db,photos
 
 
 @main.route('/')
@@ -18,17 +20,17 @@ def index():
     title = 'Home - One Minute Pitch'
     return render_template('index.html',title=title, motivation=motivation_pitch,promotion=promotion_pitch,technology=technology_pitch,religion=religion_pitch)
 
-@main.route('/pitch_new>',methods = ['GET',"POST"])
+@main.route('/pitch/new/int:id>',methods = ['GET',"POST"])
 @login_required
-def create_pitch():
+def create_pitch(id):
    form = Pitchform()
-   #Pitch = get_pitches(id)
+#    Pitch = get_pitches(id)
    if form.validate_on_submit():
        title = form.title.data
-       content = form.content.data
+       Pitch = form.content.data
        category = form.category.data
 
-       new_pitch = Pitch(title = title, content=content,category = category,user = current_user)
+       new_pitch = Pitch(title = title, pitch_id=Pitch,category = category,user = current_user)
        new_pitch.save_pitch()
        return redirect(url_for('main.index' ))
 
@@ -43,5 +45,17 @@ def profile(uname):
         abort(404)
 
     return render_template("profile/profile.html",user = user,content = content) 
+
+@main.route('/user/<uname>/update/pic', methods =['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_patch =path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))
+
 
 

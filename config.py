@@ -5,6 +5,7 @@ from flask import config
 
 class Config():
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://melo:1234@localhost/pitches'
+    UPLOADED_PHOTOS_DEST = 'app/static/photos'
 
 class ProdConfig(Config):
 

@@ -1,3 +1,4 @@
+from turtle import back
 from sqlalchemy import Column, false
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,7 +21,8 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
-    comments = db.relationship('Review',backref = 'user',lazy = "dynamic")
+    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+    pitches = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
 
     '''
     decorator to create a write only class property password
@@ -52,6 +54,7 @@ class Pitch(db.Model):
     upvote = db.Column(db.String)
     downvote = db.Column(db.String)
 
+
     '''
     Method to save pitch to session and commit is to database
     '''
@@ -66,7 +69,7 @@ class Pitch(db.Model):
 
     @classmethod
     def get_pitches(cls,id):
-        pitches = Pitch.query.filetr_by(pitch_id = id).all()
+        pitches = Pitch.query.filter_by(pitch_id = id).all()
         return pitches
 
     def __repr__(self):
