@@ -1,15 +1,28 @@
-<!-- {%extends "base.html"%}
+{%extends "base.html"%}
+{% import 'macros.html' as macro%}
+
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+{% endblock %}
 
 {% block content%}
     {% for pitch in pitches%}
     <div>
-       <h5>{{pitch.category}} </h5>
-        {{pitch.body}} <br> Written by:
-        {{pitch.author}}
+       <h3> Pitches </h3>
+       <div class=" container tab-pane fade" id="motivation">
+           {{macro.displayPitch(motivation)}}
+       </div>
+       <div class=" container tab-pane fade" id="promotion">
+        {{macro.displayPitch(promotion)}}
+    </div>
+     <div class=" container tab-pane fade" id="religion">
+           {{macro.displayPitch(religion)}}
+       </div>
+        <div class=" container tab-pane fade" id="technology">
+           {{macro.displayPitch(technology)}}
+       </div>
     </div>
     {%endfor%}
 
-{%endblock%} -->
-<div>
-    {{titile}}
-</div>
+{%endblock%}
