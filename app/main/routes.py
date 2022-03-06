@@ -1,6 +1,5 @@
 
-from crypt import methods
-from os import abort
+
 from flask import redirect, render_template, url_for
 from flask_login import current_user, login_required
 from app.auth.pitch_view import login
@@ -11,12 +10,12 @@ from . import main
 
 @main.route('/')
 def index():
-    
+   
     pitches = Pitch.query.all()
-    motivation_pitch = Pitch.query.filter_by('motivation').all()
-    promotion_pitch = Pitch.query.filter_by('promotion').all()
-    technology_pitch = Pitch.query.filter_by('technology').all()
-    religion_pitch = Pitch.query.filter_by('religion').all()
+    motivation_pitch = Pitch.query.filter_by( category ='motivation').all()
+    promotion_pitch = Pitch.query.filter_by(category = 'promotion').all()
+    technology_pitch = Pitch.query.filter_by(category='technology').all()
+    religion_pitch = Pitch.query.filter_by(category='religion').all()
 
     title = 'Home - One Minute Pitch'
     return render_template('index.html',title=title, motivation=motivation_pitch,promotion=promotion_pitch,technology=technology_pitch,religion=religion_pitch)
