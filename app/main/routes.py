@@ -1,6 +1,4 @@
-
-
-from flask import redirect, render_template, url_for
+from flask import redirect, render_template, url_for,abort
 from flask_login import current_user, login_required
 from app.auth.pitch_view import login
 from app.main.forms import Pitchform
@@ -36,14 +34,14 @@ def create_pitch():
 
    return render_template('new_pitch.html', form=form)
 
-# @main.route('/user/<uname>')
-# @login_required
-# def profile(uname):
-#     user = User.query.filter_by(username = uname).first()
-#     content = Pitch.query.filter_by(user = current_user).all()
-#     if user is None:
-#         abort(404)
+@main.route('/user/<uname>')
+@login_required
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+    content = Pitch.query.filter_by(user = current_user).all()
+    if user is None:
+        abort(404)
 
-#     return render_template("profile/profile.html",user = user,content = content) 
+    return render_template("profile/profile.html",user = user,content = content) 
 
 
