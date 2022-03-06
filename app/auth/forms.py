@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
 
     
 class LoginForm(FlaskForm):
-    email = StringField('Your Email Address',validators=[DataRequired(),Email])
-    password = PasswordField('password',validators=[DataRequired])
+    email = StringField('Your Email Address',validators=[DataRequired(),Email()])
+    password = PasswordField('password',validators=[DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('signe in')

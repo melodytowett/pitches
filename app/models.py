@@ -1,4 +1,3 @@
-from unicodedata import category
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -19,7 +18,7 @@ class User(UserMixin,db.Model):
     pass_secure  = db.Column(db.String(255))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    
+    # role_id= db.Column(db.Integer,db.ForeignKey('pitches.id'))
     pitches = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
 
     def save(self):
@@ -51,8 +50,8 @@ class Pitch(db.Model):
     content = db.Column(db.Text())
     time_posted = db.Column(db.DateTime,default=datetime.utcnow)
     category = db.Column(db.String,nullable=False)
-    user_id = db.column(db.Integer,db.ForeignKey("users.id"))
-    comment = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    # comment = db.relationship('Comment',backref = 'pitch',lazy = "dynamic")
     upvote = db.Column(db.String)
     downvote = db.Column(db.String)
 

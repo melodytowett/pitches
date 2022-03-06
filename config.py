@@ -4,7 +4,7 @@ import os
 from flask import config
 
 class Config():
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://melo:1234@localhost/pitches'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:1234@localhost/pitches'
     UPLOADED_PHOTOS_DEST = 'app/static/photos'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
