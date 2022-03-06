@@ -20,9 +20,9 @@ def index():
     title = 'Home - One Minute Pitch'
     return render_template('index.html',title=title, motivation=motivation_pitch,promotion=promotion_pitch,technology=technology_pitch,religion=religion_pitch)
 
-@main.route('/pitch/new/int:id>',methods = ['GET',"POST"])
+@main.route('/new_content>',methods = ['GET',"POST"])
 @login_required
-def create_pitch(id):
+def create_content(id):
    form = Pitchform()
 #    Pitch = get_pitches(id)
    if form.validate_on_submit():
@@ -34,7 +34,7 @@ def create_pitch(id):
        new_pitch.save_pitch()
        return redirect(url_for('main.index' ))
 
-   return render_template('new_pitch.html', form=form)
+   return render_template('pitches.html', form=form)
 
 @main.route('/user/<uname>')
 @login_required
