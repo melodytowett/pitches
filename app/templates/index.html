@@ -17,32 +17,34 @@
                      How do we make sure that you use your 1 minute to actually say something meaningful?</p>
 
                      <h3>Use a minute to create a Pitch to impress someone Or View already Existing pitches</h3>
-                <button type="button "> <a href="{{url_for('auth.login')}}"></a> Create view</button>
-                <button type="button"> <a href="{url_for('auth.login')}}"></a> Check Existing views</button>
+                <button type="button "> <a href="{{url_for('main.pitches')}}"></a> Create pitch</button>
+                <button type="button"> <a href="{url_for('main.existing_pitch')}}"></a> Check Existing pitches</button>
             </div>
 
         </div>
     </div>
 </div>
+{%if pitches%}
     {% for pitch in pitches%}
     <div>
        <h3> Pitches </h3>
        <div class=" container tab-pane fade" id="pitches">
-        {{macro.displayPitch(pitches.category)}}
+        {{macro.displayPitch(pitches)}}
     </div>
        <div class=" container tab-pane fade" id="motivation">
-           {{macro.displayPitch(motivation.category)}}
+           {{macro.displayPitch(motivation)}}
        </div>
        <div class=" container tab-pane fade" id="promotion">
-        {{macro.displayPitch(promotion.category)}}
+        {{macro.displayPitch(promotion)}}
     </div>
      <div class=" container tab-pane fade" id="religion">
            {{macro.displayPitch(religion)}}
        </div>
         <div class=" container tab-pane fade" id="technology">
-           {{macro.displayPitch(technology.category)}}
+           {{macro.displayPitch(technology)}}
        </div>
     </div>
     {%endfor%}
+    {%endif%}
 
 {%endblock%}
