@@ -1,3 +1,4 @@
+from crypt import methods
 from importlib.resources import contents
 from flask import redirect, render_template, request, url_for,abort
 from flask_login import current_user, login_required
@@ -21,13 +22,6 @@ def index():
     # return render_template('index.html',title=title)
     return render_template('index.html',pitch=pitch,motivation=motivation,promotion=promotion,technology=technology,religion=religion)
 
-# @main.route('/pitches')
-# @login_required
-# def display_pitches():
-#     content = Pitch.query.all()
-#     user = current_user
-#     return render_template('pitches.html',content=content,user=user)
-
 
 @main.route('/new_pitch',methods = ['GET',"POST"])
 @login_required
@@ -48,7 +42,7 @@ def create_pitch():
 
 @main.route('/comment/<int:pitch_id>', methods=['POST','GET'])
 @login_required
-def comment(pitch_id):
+def comment_sent(pitch_id):
     form = CommentForm()
     pitch = Pitch.query.get(pitch_id)
     # pitch = User.query.all()
@@ -63,29 +57,18 @@ def comment(pitch_id):
     return render_template('comment.html', form = form, pitch= pitch,comment = comment)
 
 
-@main.route('/user/<uname>')
+@main.route('/user/<uname>/update')
 @login_required
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-    content = Pitch.query.filter_by(user = current_user).all()
+    # content = Pitch.query.filter_by(user = current_user).all()
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html",user = user,content = content) 
-
-@main.route('/user/<uname>/update/pic', methods =['POST'])
-@login_required
-def update_pic(uname):
-    user = User.query.filter_by(username = uname).first()
-    if 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        path = f'photos/{filename}'
-        user.profile_pic_patch =path
-        db.session.commit()
-    return redirect(url_for('main.profile',uname=uname))
+    return render_template("profile/profile.html",user = user) 
 
 
-@main.route('/user/<uname>/update')
+@main.route('/user/<uname>/update',methods = ['Get','POST'])
 @login_required
 def update_profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -101,3 +84,14 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template("profile/update.html", form = form)
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))
