@@ -1,6 +1,6 @@
 {%extends "base.html"%}
 {% import 'macros.html' as macro%}
-
+{% import 'bootstrap/wtf.html' as wtf%}
 {% block styles%}
 {{ super() }}
 <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
@@ -17,34 +17,25 @@
                      How do we make sure that you use your 1 minute to actually say something meaningful?</p>
 
                      <h3>Use a minute to create a Pitch to impress someone Or View already Existing pitches</h3>
-                <button type="button "> <a href="{{url_for('main.pitches')}}"></a> Create pitch</button>
+                <button type="button "> <a href="{{url_for('main.create_pitch')}}"></a> Create pitch</button>
                 <button type="button"> <a href="{url_for('main.existing_pitch')}}"></a> Check Existing pitches</button>
             </div>
 
         </div>
     </div>
 </div>
-{%if pitches%}
-    {% for pitch in pitches%}
-    <div>
-       <h3> Pitches </h3>
-       <div class=" container tab-pane fade" id="pitches">
-        {{macro.displayPitch(pitches)}}
-    </div>
-       <div class=" container tab-pane fade" id="motivation">
-           {{macro.displayPitch(motivation)}}
+
+    {% for pitch in pitch%}
+    <div class="col-md-4">
+    <div class="card">
+        <div class="card-body bg-danger height = 100px" >
+       <h5>{{pitch.category}} </h5>
+       <p> {{pitch.content}} </p> <b>posted by  </b>
+
        </div>
-       <div class=" container tab-pane fade" id="promotion">
-        {{macro.displayPitch(promotion)}}
-    </div>
-     <div class=" container tab-pane fade" id="religion">
-           {{macro.displayPitch(religion)}}
-       </div>
-        <div class=" container tab-pane fade" id="technology">
-           {{macro.displayPitch(technology)}}
        </div>
     </div>
     {%endfor%}
-    {%endif%}
+ 
 
 {%endblock%}

@@ -1,9 +1,9 @@
 {% macro displayPitch(pitches)%}
 {%if pitches%}
-{%for pitch in pitches%}
+{%for pitch in pitch%}
 
 <div class="col-xs-12 col-sm4 col-md-4 col-lg-4 pitch-card">
-    <h2>Category {{pitch.category}} </h2>
+    <h2>Category:{{pitch.category}} </h2>
     <p> {{pitch.title}} </p>
     <p> {{pitch.content }} </p>
 </div>

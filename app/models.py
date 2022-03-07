@@ -86,8 +86,8 @@ class Pitch(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def __repr__(self):
-        return f'pitch{self.content}'
+    # def __repr__(self):
+    #     return f'pitch{self.c}'
     '''
     classmethod that will take in pitch id and retrive them
     '''

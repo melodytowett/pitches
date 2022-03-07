@@ -1,3 +1,4 @@
+from importlib.resources import contents
 from flask import redirect, render_template, request, url_for,abort
 from flask_login import current_user, login_required
 from app.main.forms import PitchForm,UpdateProfile,CommentForm
@@ -10,7 +11,7 @@ from ..import db,photos
 def index():
     '''
     '''
-    content=Pitch.query.all()
+    pitch=Pitch.query.all()
     motivation = Pitch.query.filter_by( category ='motivation').all()
     promotion = Pitch.query.filter_by(category = 'promotion').all()
     technology = Pitch.query.filter_by(category='technology').all()
@@ -18,14 +19,14 @@ def index():
 
     title = 'Home - One Minute Pitch'
     # return render_template('index.html',title=title)
-    return render_template('index.html',content=content,motivation=motivation,promotion=promotion,technology=technology,religion=religion)
+    return render_template('index.html',pitch=pitch,motivation=motivation,promotion=promotion,technology=technology,religion=religion)
 
-@main.route('/pitches')
-@login_required
-def pitches():
-    content = Pitch.query.all()
-    user = current_user
-    return render_template('pitches.html',content=content,user=user)
+# @main.route('/pitches')
+# @login_required
+# def display_pitches():
+#     content = Pitch.query.all()
+#     user = current_user
+#     return render_template('pitches.html',content=content,user=user)
 
 
 @main.route('/new_pitch',methods = ['GET',"POST"])
