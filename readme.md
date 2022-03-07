@@ -13,14 +13,14 @@
 Application that helps one Use one minute of their time to explain n somthing to impress someone. The site allows one to add a pitch comment on other people pitches add profile and vote for pitches.
 
 ## Live link
-`https://newsupdate.herokuapp.com/`
+
 ## Installation
 ### Requirements
 * python3.8
 * pip 
 ### Installation process
 * Open terminal
-* run `git clone https://github.com/melodytowett/news-update.git`
+* run `git clone https://github.com/melodytowett/pitches.git`
 
 ### Dependancy Installation process
 ```
