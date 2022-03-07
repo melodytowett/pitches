@@ -17,8 +17,7 @@
                      How do we make sure that you use your 1 minute to actually say something meaningful?</p>
 
                      <h3>Use a minute to create a Pitch to impress someone Or View already Existing pitches</h3>
-                <button type="button "> <a href="{{url_for('main.create_pitch')}}"></a> Create pitch</button>
-                <button type="button"> <a href="{url_for('main.existing_pitch')}}"></a> Check Existing pitches</button>
+             
             </div>
 
         </div>
@@ -33,7 +32,7 @@
        <p> {{pitch.content}}</p>
         <b>posted by {{pitch.user.username |capitalize}}  </b>
         <br>
-        <button> <a href="{{url_for('auth.login')}} "></a> comment </button>
+        <button> <a href=" {{url_for('main.index')}} ">comment</a> </button>
 
       
        </div>
