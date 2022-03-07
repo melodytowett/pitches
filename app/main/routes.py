@@ -1,8 +1,6 @@
-from importlib.resources import contents
-from unicodedata import category
-from xml.etree.ElementTree import Comment
 from flask import redirect, render_template, request, url_for,abort
 from flask_login import current_user, login_required
+from importlib_resources import contents
 from app.main.forms import PitchForm,UpdateProfile,CommentForm
 from ..models import Pitch, User,Comment
 from . import main
@@ -11,16 +9,25 @@ from ..import db,photos
 
 @main.route('/',methods = ['GET','POST'])
 def index():
-
-    # pitches = Pitch.query.filter_by(pitch_title='motivation').all()
-    # motivation = Pitch.query.filter_by( category ='motivation').all()
-    # promotion = Pitch.query.filter_by(category = 'promotion').all()
-    # technology = Pitch.query.filter_by(category='technology').all()
-    # religion = Pitch.query.filter_by(category='religion').all()
+    '''
+    '''
+    content=Pitch.query.all()
+    motivation = Pitch.query.filter_by( category ='motivation').all()
+    promotion = Pitch.query.filter_by(category = 'promotion').all()
+    technology = Pitch.query.filter_by(category='technology').all()
+    religion = Pitch.query.filter_by(category='religion').all()
 
     title = 'Home - One Minute Pitch'
-    return render_template('index.html',title=title)
-    # return render_template('index.html',title=title,motivation=motivation,promotion=promotion,technology=technology,religion=religion)
+    # return render_template('index.html',title=title)
+    return render_template('index.html',content=content,motivation=motivation,promotion=promotion,technology=technology,religion=religion)
+
+@main.route('/pitches')
+@login_required
+def pitches():
+    content = Pitch.query.all()
+    user = current_user
+    return render_template('pitches.html',content=content,user=user)
+
 
 @main.route('/new_pitch',methods = ['GET',"POST"])
 @login_required
@@ -28,11 +35,11 @@ def create_pitch():
    form = PitchForm()
 #    Pitch = get_pitches(id)
    if form.validate_on_submit():
-       title = form.title.data
+    #    title = form.title.data
        content = form.content.data
        category = form.category.data 
 
-       new_pitch = Pitch(title = title, content=content,category = category,user = current_user)
+       new_pitch = Pitch( content=content,category = category,user = current_user)
        new_pitch.save_pitch()
        return redirect(url_for('main.index' ))
 
