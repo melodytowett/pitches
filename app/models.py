@@ -1,3 +1,4 @@
+from urllib import response
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -9,8 +10,29 @@ from datetime import datetime
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+class Pitch:
+    all_pitches = []
+
+    def __init__(self,id,title,category,content):
+        self.id = id
+        self.titile=title
+        self.category = category
+        self.content = content
+
+    def save_pitch(self):
+        Pitch.all_reviews.append(self)
+
+    @classmethod
+    def get_pitches(cls,id):
+        response=[]
+        for pitch in cls.all_pitvhes:
+            if pitch.pitche_id ==id:
+                response.append(pitch)
+        return response
+
+
 class User(UserMixin,db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255),index = True)
     email = db.Column(db.String(255),unique = True,index = True)
@@ -50,10 +72,10 @@ class Pitch(db.Model):
     content = db.Column(db.Text())
     time_posted = db.Column(db.DateTime,default=datetime.utcnow)
     category = db.Column(db.String,nullable=False)
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     # comment = db.relationship('Comment',backref = 'pitch',lazy = "dynamic")
-    upvote = db.Column(db.String)
-    downvote = db.Column(db.String)
+    # upvote = db.Column(db.String)
+    # downvote = db.Column(db.String)
 
 
     '''
@@ -64,9 +86,22 @@ class Pitch(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def __repr__(self):
+        return f'pitch{self.content}'
     '''
     classmethod that will take in pitch id and retrive them
     '''
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer,primary_key = True)
+    comment  = db.Column(db.Text())
+    pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
 
     @classmethod
     def get_pitches(cls,id):

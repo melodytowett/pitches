@@ -7,25 +7,30 @@
 {% endblock %}
 
 {% block content%}
-    {% for pitch in pitches%}
+<div class="container">
+    <div class="row">
+        
+    </div>
+</div>
+    <!-- {% for pitch in pitches%}
     <div>
        <h3> Pitches </h3>
        <div class=" container tab-pane fade" id="pitches">
-        {{macro.displayPitch(pitches)}}
+        {{macro.displayPitch(pitches.category)}}
     </div>
        <div class=" container tab-pane fade" id="motivation">
-           {{macro.displayPitch(motivation)}}
+           {{macro.displayPitch(motivation.category)}}
        </div>
        <div class=" container tab-pane fade" id="promotion">
-        {{macro.displayPitch(promotion)}}
+        {{macro.displayPitch(promotion.category)}}
     </div>
      <div class=" container tab-pane fade" id="religion">
            {{macro.displayPitch(religion)}}
        </div>
         <div class=" container tab-pane fade" id="technology">
-           {{macro.displayPitch(technology)}}
+           {{macro.displayPitch(technology.category)}}
        </div>
     </div>
-    {%endfor%}
+    {%endfor%} -->
 
 {%endblock%}

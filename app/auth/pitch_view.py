@@ -1,6 +1,4 @@
-from crypt import methods
 from flask import redirect, render_template,redirect,url_for,flash,request
-import flask
 from flask_login import login_required, login_user, logout_user
 from . import auth
 from..models import User

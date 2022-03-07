@@ -5,6 +5,7 @@ from flask import config
 
 class Config():
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:1234@localhost/pitches'
+    # SECRET_KEY = os.environ.get = ("SECRET_KEY")
     UPLOADED_PHOTOS_DEST = 'app/static/photos'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587

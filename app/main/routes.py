@@ -1,35 +1,38 @@
 from importlib.resources import contents
+from unicodedata import category
 from xml.etree.ElementTree import Comment
 from flask import redirect, render_template, request, url_for,abort
 from flask_login import current_user, login_required
 from app.main.forms import PitchForm,UpdateProfile,CommentForm
-from app.models import Pitch, User
+from ..models import Pitch, User,Comment
 from . import main
 from ..import db,photos
 
 
-@main.route('/')
+@main.route('/',methods = ['GET','POST'])
 def index():
-   
-    pitches = Pitch.query.all()
-    motivation_pitch = Pitch.query.filter_by( category ='motivation').all()
-    promotion_pitch = Pitch.query.filter_by(category = 'promotion').all()
-    technology_pitch = Pitch.query.filter_by(category='technology').all()
-    religion_pitch = Pitch.query.filter_by(category='religion').all()
+
+    # pitches = Pitch.query.filter_by(pitch_title='motivation').all()
+    # motivation = Pitch.query.filter_by( category ='motivation').all()
+    # promotion = Pitch.query.filter_by(category = 'promotion').all()
+    # technology = Pitch.query.filter_by(category='technology').all()
+    # religion = Pitch.query.filter_by(category='religion').all()
 
     title = 'Home - One Minute Pitch'
-    return render_template('index.html',title=title, pitches=pitches,motivation=motivation_pitch,promotion=promotion_pitch,technology=technology_pitch,religion=religion_pitch)
+    return render_template('index.html',title=title)
+    # return render_template('index.html',title=title,motivation=motivation,promotion=promotion,technology=technology,religion=religion)
 
-@main.route('/pitch/content/new<int:id>',methods = ['GET',"POST"])
+@main.route('/new_pitch',methods = ['GET',"POST"])
 @login_required
-def create_pitch(id):
+def create_pitch():
    form = PitchForm()
 #    Pitch = get_pitches(id)
    if form.validate_on_submit():
        title = form.title.data
-       Pitch = form.content.data
-       category = form.category.data
-       new_pitch = Pitch(title = title, pitch_id=Pitch,category = category,user = current_user)
+       content = form.content.data
+       category = form.category.data 
+
+       new_pitch = Pitch(title = title, content=content,category = category,user = current_user)
        new_pitch.save_pitch()
        return redirect(url_for('main.index' ))
 
@@ -41,15 +44,16 @@ def create_pitch(id):
 def comment(pitch_id):
     form = CommentForm()
     pitch = Pitch.query.get(pitch_id)
+    # pitch = User.query.all()
     comment = Comment.query.filter_by(pitch_id = pitch_id).all()
     if form.validate_on_submit():
         comment = form.Comment.data
         pitch_id = pitch_id
-        new_comment = Comment(comment = comment,pitch_id = pitch,user = current_user)
+        new_comment = Comment(comment = comment,pitch_id = pitch_id,user = current_user)
         new_comment.save_coment()
         return redirect(url_for('.comment',pitch_id = pitch_id))
 
-    return render_template('comment.html', form = form,pitch = pitch,comment = comment)
+    return render_template('comment.html', form = form, pitch= pitch,comment = comment)
 
 
 @main.route('/user/<uname>')
