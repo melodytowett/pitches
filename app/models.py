@@ -103,11 +103,7 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    @classmethod
-    def get_pitches(cls,id):
-        pitches = Pitch.query.filter_by(pitch_id = id).all()
-        return pitches
-
+  
     def __repr__(self):
         return f'User {self.username}'
 

@@ -29,9 +29,11 @@
     <div class="col-md-4">
     <div class="card">
         <div class="card-body bg-danger height = 100px" >
-       <h5>{{pitch.category}} </h5>
-       <p> {{pitch.content}} </p> <b>posted by  </b>
-
+       <h5> category: {{pitch.category}}</h5>
+       <p> {{pitch.content}}</p>
+        <b>posted by {{pitch.user.username |capitalize}} on : {{pitch.user.time_posted}} </b>
+        <button>comment </button>
+      
        </div>
        </div>
     </div>
