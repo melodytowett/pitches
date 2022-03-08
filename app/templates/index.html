@@ -30,11 +30,11 @@
         <div class="card-body bg-danger" >
        <h5> category: <b>{{pitch.category}}</b></h5>
        <p> {{pitch.content}}</p>
-        <b>posted by {{pitch.user.username |capitalize}}  </b>
+        <b>posted by {{pitch.user.username |capitalize}} on {{pitch.time_posted.strftime('%y-%m-%d')}} </b> 
         <br>
         <button> <a href=" {{url_for('main.index')}} ">comment</a> </button>
 
-      
+     
        </div>
        </div>
     </div>

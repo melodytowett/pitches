@@ -4,10 +4,24 @@
 {% block content%}
 <div class="container">
     <div class="row">
+        {% if comments %}
         <div class="col-md-4">
-            {{wtf.quick_form(form)}}
-          
+            <h5>Comments for this page</h5>
+            {{%%for comment in comments%}}
+            <div class="card">
+                <div class="card-body">
+                    {{ comment.comment}}
+                    <p>{{ comment.user.username}}</p>
+                </div>
+            </div>
+            {%endfor%}
         </div>
+        {{wtf.quick_form(form)}}
     </div>
+    {{%else%}}
+    <div class="col-md-4">
+        <h6>{{comments for this post}} </h6>
+    </div>
+    {%endif%}
 </div>
 {%endblock%}

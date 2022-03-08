@@ -28,17 +28,19 @@ def create_pitch():
    return render_template('pitches.html', form=form)
 
 
-@main.route('/comment/new/<int:pitch_id>', methods=['POST','GET'])
+@main.route('/comment/<int:pitch_id>', methods=['POST','GET'])
 @login_required
 def comment_sent(pitch_id):
     form = CommentForm()
+    pitch = Pitch.query.get(pitch_id)
     comment = Comment.query.filter_by(pitch_id = pitch_id).all()
     if form.validate_on_submit():
         comment = form.Comment.data
         pitch_id = pitch_id
         new_comment = Comment(comment = comment,pitch_id = pitch_id,user = current_user)
         new_comment.save_comment()
-    return render_template('comment.html', form = form,comment = comment)
+        return redirect(url_for('.comment',pitch_id = pitch_id))
+    return render_template('comment.html',pitch=pitch, form = form,comment = comment)
 
 
 @main.route('/user/<uname>/update')
