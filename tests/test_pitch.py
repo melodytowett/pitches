@@ -1,10 +1,11 @@
-from unicodedata import category
-from importlib_metadata import email
 from app.models import Pitch,User
 from app import db
 import unittest
 
 class PitchTest(unittest.TestCase):
+    '''
+    Creating n instance of User and pitch and pass it
+    '''
     def setUp(self):
         self.user_Melo = User(username = 'melo',password='1234',email = 'melo@gmail.com')
         self.new_pitch = Pitch(category="Promotion", content='cool promotion',user = self.user_Melo)

@@ -43,7 +43,7 @@ class User(UserMixin,db.Model):
     # role_id= db.Column(db.Integer,db.ForeignKey('pitches.id'))
     pitches = db.relationship('Pitch',backref = 'user',lazy = "dynamic")
 
-    def save(self):
+    def save_user(self):
         db.session.add(self)
         db.session.commit()
 
