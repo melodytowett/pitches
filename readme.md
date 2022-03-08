@@ -13,7 +13,7 @@
 Application that helps one Use one minute of their time to explain n somthing to impress someone. The site allows one to add a pitch comment on other people pitches add profile and vote for pitches.
 
 ## Live link
-
+ https://melo-impression-pitch.herokuapp.com/
 ## Installation
 ### Requirements
 * python3.8
